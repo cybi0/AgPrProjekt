@@ -1,11 +1,10 @@
-
 //================================================================//
 
 //Code übernommen von Prof Dr. Plaß, HAW Hamburg
 
 // Datenbank initialisieren
 const sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('user.db');
+let db = new sqlite3.Database('/db/user.db');
 
 // Express.js Webserver
 const express = require('express');
@@ -36,3 +35,4 @@ app.listen(3000, function(){
 });
 
 // ================================================================//
+

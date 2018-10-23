@@ -1,0 +1,4 @@
+#ignoriert dbdateien
+/db/*.db
+#ignoriert node modules
+/node_modules
