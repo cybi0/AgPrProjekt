@@ -2,4 +2,3 @@
 /db/*.db
 #ignoriert node modules
 /node_modules
-#ummm brauche ich hier etwas?
