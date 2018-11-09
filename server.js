@@ -57,6 +57,11 @@ app.post('/onNeueNotiz', function(req, res){
 	const ordner = req.body["ordner"];
 	const link = req.body["link"];
 	let linkName = req.body["linkName"];
+	const today = new Date();
+	const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+	const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+	const dateTime = date+' '+time;
+	const user = "Max";		//Muss noch geändert werden!!
 	
 	if ((ordner == "" || ordner == null) || (notiz == "" && link == "")){
 		res.redirect('/notebook');
@@ -65,7 +70,7 @@ app.post('/onNeueNotiz', function(req, res){
 			linkName = link;
 		}
 
-		const sql = `INSERT INTO notes (notiz, ordner, link, linkName) VALUES ('${notiz}', '${ordner}', '${link}', '${linkName}')`;
+		const sql = `INSERT INTO notes (notiz, ordner, link, linkName, dateTime, user) VALUES ('${notiz}', '${ordner}', '${link}', '${linkName}', '${dateTime}', '${user}')`;
 		console.log(sql);
 		db.run(sql, function(err){
 			res.redirect('/notebook');
@@ -76,8 +81,9 @@ app.post('/onNeueNotiz', function(req, res){
 
 app.post('/onOrdnerAuswahl', function(req, res){
 	const ordner = req.body["ordner"];
+	const user = "Max";		//Muss noch geändert werden!!
 	
-	const sql = `SELECT * FROM notes where ordner='${ordner}'`;
+	const sql = `SELECT * FROM notes WHERE ordner='${ordner}' AND user='${user}'`;
 	console.log(sql);
 	db.all(sql, function(err, rows){
 		if (err){

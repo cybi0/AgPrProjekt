@@ -12,12 +12,12 @@
 			}
 			a:link, a:active, a:visited {
 				text-decoration: none;
-				color: #dfdbd2;
+				color:rgb(80, 176, 255);
 			}
 			a:hover {
 				font-weight: bold;
-				color: white;
-				text-shadow: 1px 1px 5px #dfdbd2;
+				color: dodgerblue;
+				/*text-shadow: 1px 1px 5px #dfdbd2;*/
 			}
 			H3 {
 				background-color: #464540;
@@ -29,6 +29,7 @@
 				margin: 10px 10px 10px 0px;
 				padding: 1px 1px 1px 1px;
 				background-color: #464540;
+				color:gray;
 			}
 		</style>
     </head>
@@ -62,7 +63,8 @@
 			<% for(var i = rows.length-1; i >= 0; i--) { %>
 				<div id="linkZeile">
 					<dt><a href="<%= rows[i].link %>" target="_blank"><%= rows[i].linkName %></a></dt>
-					<dt style="white-space:pre-wrap; word-wrap:break-word; color:gray"><%= rows[i].notiz %></dt>
+					<dt style="white-space:pre-wrap; word-wrap:break-word; color:#dfdbd2"><%= rows[i].notiz %></dt>
+					<dt><%= rows[i].dateTime %></dt>
 				</div>
 		    <%}%>
 			</div>
