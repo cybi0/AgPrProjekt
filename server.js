@@ -47,9 +47,26 @@ String.isNullOrEmpty = function (value) {
     return (!value || value == undefined || value == "" || value.length == 0);
 }
 */
+app.locals.ckeckForImage = (link) => {
+	const ausgabe = link.match(/\.(jpeg|jpg|gif|png)$/) != null;
+	return(ausgabe);
+};
 
 app.get(['/', '/notebook'], function(req, res) {
-	res.render('notebook', {'rows':  ""});
+	const user = "Max";		//Muss noch geändert werden!!
+	
+	const sql = `SELECT * FROM notes WHERE user='${user}'`;
+	console.log(sql);
+	db.all(sql, function(err, rows){
+		if (err){
+			console.log(err.message);
+		}
+		else{
+			console.log(rows);
+			res.render('notebook', {'rows':  rows || []});
+		}
+	})
+	//res.render('notebook', {'rows':  ""});
 });
 
 app.post('/onNeueNotiz', function(req, res){

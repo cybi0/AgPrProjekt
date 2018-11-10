@@ -31,6 +31,12 @@
 				background-color: #464540;
 				color:gray;
 			}
+/*			img {
+				float: right;
+			} */
+			.clearfix {
+				overflow: auto;
+			}
 		</style>
     </head>
     <body>
@@ -61,12 +67,16 @@
 
 		    <div>
 			<% for(var i = rows.length-1; i >= 0; i--) { %>
-				<div id="linkZeile">
+				<div id="linkZeile" class="clearfix">
+					<% if(ckeckForImage(rows[i].link) == true) { %>
+					<dt><img src="<%= rows[i].link %>" alt="<%= rows[i].linkName %>"></dt>
+					<% } else { %>
 					<dt><a href="<%= rows[i].link %>" target="_blank"><%= rows[i].linkName %></a></dt>
+					<% } %>
 					<dt style="white-space:pre-wrap; word-wrap:break-word; color:#dfdbd2"><%= rows[i].notiz %></dt>
-					<dt><%= rows[i].dateTime %></dt>
+					<dt style="bottom: 0; left: 0;"><%= rows[i].dateTime %></dt>
 				</div>
-		    <%}%>
+			<%}%>
 			</div>
 		</div>
 
