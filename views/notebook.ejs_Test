@@ -8,7 +8,7 @@
 				font-family: arial;
 			}
 			body {
-				margin: 0px 15px ;
+				margin: 0px 15px;
 			}
 			a:link, a:active, a:visited {
 				text-decoration: none;
@@ -40,36 +40,13 @@
 		</style>
     </head>
     <body>
-		<h1>Notebook</h1>
-
-		<!--Eingabebereich Notizen-->
-		<div>
-			<form action="/onNeueNotiz" method="POST">
-				Neue Notiz:<br>
-				<textarea type="text" name="notiz"></textarea><br>
-				<input type="text" name="link" placeholder="Link-URL einfügen"> <br>
-				<input type="text" name="linkName" placeholder="Link-Name einfügen (optional)"> <br>
-				Ordner auswählen:<br>
-				<% for(var i = 0; i < ordner.length; i++) { %>
-					<input type="radio" name="ordner" value="<%= ordner[i].ordner %>"><%= ordner[i].ordner %><br>
-				<%}%>				
-				<br>
-				<button type="submit">Notiz Speichern</button>
-			</form>
-		</div>
-		<!--Eingabebereich Neuer Ordner-->
-		<div>
-			<form action="/onNeuerOrdner" method="POST">
-				Neuer Ordner:
-				<input type="text" name="ordner" placeholder="Hier Namen für neuen Ordner eingeben.">
-				<br>
-				<button type="submit">Neuen Ordner hinzufügen</button>
-				<br>
-			</form>
+		<div style="margin: 15px; float: right;">
+			<button>Neue Notiz</button>
+			<button>Neuen Ordner erstellen</button>
 		</div>
 
 		<!--Auflistung der Tabelle-->
-		<div>
+		<div style="margin: 15px 0px;">
 			Datenbank-Inhalt:<br>
 			<form action="/onOrdnerAuswahl" method="POST">
 				<% for(var i = ordner.length-1; i >= 0; i--) { %>

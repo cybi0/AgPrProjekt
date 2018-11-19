@@ -55,7 +55,7 @@ app.locals.ckeckForImage = (link) => {
 app.get(['/', '/notebook'], function(req, res) {
 	const user = "Max";		//Muss noch geändert werden!!
 	
-	const sql = `SELECT * FROM notes WHERE user='${user}'`;
+	let sql = `SELECT * FROM notes WHERE user='${user}'`;
 	console.log(sql);
 	db.all(sql, function(err, rows){
 		if (err){
@@ -63,7 +63,12 @@ app.get(['/', '/notebook'], function(req, res) {
 		}
 		else{
 			console.log(rows);
-			res.render('notebook', {'rows':  rows || []});
+			let notes = rows;
+			sql = `SELECT * FROM ordner`;
+			db.all(sql, function(err, rows){
+				let ordner = rows;
+				res.render('notebook', {'notes':  notes || [], 'ordner': ordner || []});
+			});
 		}
 	})
 	//res.render('notebook', {'rows':  ""});
@@ -96,11 +101,22 @@ app.post('/onNeueNotiz', function(req, res){
 	
 });
 
-app.post('/onOrdnerAuswahl', function(req, res){
+app.post('/onNeuerOrdner', function(req, res){
 	const ordner = req.body["ordner"];
 	const user = "Max";		//Muss noch geändert werden!!
 	
-	const sql = `SELECT * FROM notes WHERE ordner='${ordner}' AND user='${user}'`;
+	const sql = `INSERT INTO ordner (ordner, user) VALUES ('${ordner}', '${user}')`;
+	console.log(sql);
+	db.run(sql, function(err){
+		res.redirect('/notebook');
+	});
+});
+
+app.post('/onOrdnerAuswahl', function(req, res){
+	const ordn = req.body["ordner"];
+	const user = "Max";		//Muss noch geändert werden!!
+	
+	let sql = `SELECT * FROM notes WHERE ordner='${ordn}' AND user='${user}'`;
 	console.log(sql);
 	db.all(sql, function(err, rows){
 		if (err){
@@ -108,7 +124,12 @@ app.post('/onOrdnerAuswahl', function(req, res){
 		}
 		else{
 			console.log(rows);
-			res.render('notebook', {'rows':  rows || []});
+			let notes = rows;
+			sql = `SELECT * FROM ordner`;
+			db.all(sql, function(err, rows){
+				let ordner = rows;
+				res.render('notebook', {'notes':  notes || [], 'ordner': ordner || []});
+			});
 		}
 	})
 });
