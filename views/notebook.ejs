@@ -1,72 +1,67 @@
 <html>
     <head>
 		<title>Notebook</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 		<style type="text/css">
-			html {
-				background-color: #3e3d39;
-				color: #dfdbd2;
-				font-family: arial;
-			}
-			body {
-				margin: 0px 15px ;
-			}
-			a:link, a:active, a:visited {
-				text-decoration: none;
-				color:rgb(80, 176, 255);
-			}
-			a:hover {
-				font-weight: bold;
-				color: dodgerblue;
-				/*text-shadow: 1px 1px 5px #dfdbd2;*/
-			}
-			H3 {
-				background-color: #464540;
-			}
-			dd {
-				color: grey;
-			}
-			#linkZeile {
-				margin: 10px 10px 10px 0px;
-				padding: 1px 1px 1px 1px;
-				background-color: #464540;
-				color:gray;
-			}
-/*			img {
-				float: right;
-			} */
 			.clearfix {
 				overflow: auto;
+			}
+			#cont_28682c977b12af75f0de2c7e8b8ff50c {
+				float: right;
+				top: 0;
+				right: 0;
 			}
 		</style>
     </head>
     <body>
-		<h1>Notebook</h1>
+		<!--dasWetter-->
+		<div id="cont_28682c977b12af75f0de2c7e8b8ff50c"><script type="text/javascript" async src="https://www.daswetter.com/wid_loader/28682c977b12af75f0de2c7e8b8ff50c"></script></div>
+		<!--Eingabebereich-->
+		<div class="container">
+			<button data-toggle="collapse" data-target="#eingabeNeueNotiz">Neue Eingabe</button>
+			<button data-toggle="collapse" data-target="#eingabeNeuerOrdner">Neue Eingabe</button>
 
-		<!--Eingabebereich Notizen-->
-		<div>
+			<!--Eingabebereich Neue Notiz-->
+			<div id="eingabeNeueNotiz" class="collapse">
 			<form action="/onNeueNotiz" method="POST">
-				Neue Notiz:<br>
-				<textarea type="text" name="notiz"></textarea><br>
-				<input type="text" name="link" placeholder="Link-URL einfügen"> <br>
-				<input type="text" name="linkName" placeholder="Link-Name einfügen (optional)"> <br>
-				Ordner auswählen:<br>
-				<% for(var i = 0; i < ordner.length; i++) { %>
-					<input type="radio" name="ordner" value="<%= ordner[i].ordner %>"><%= ordner[i].ordner %><br>
-				<%}%>				
-				<br>
-				<button type="submit">Notiz Speichern</button>
+				<div class="form-group">
+					<label for="sel1">Comment:</label>
+					<textarea class="form-control" rows="5" id="sel1" type="text" name="notiz" placeholder="Write something here..."></textarea>
+					<input class="form-control" type="text" name="link" placeholder="Link-URL einfügen">
+					<input class="form-control" type="text" name="linkName" placeholder="Link-Name einfügen (optional)">
+				</div>
+				<div class="form-group">
+					<label for="sel2">Speicherort auswählen:</label>
+					<select class="form-control" id="sel2" name="ordner">
+					<% for(var i = 0; i < ordner.length; i++) { %>
+						<option name="ordner" value="<%= ordner[i].ordner %>"><%= ordner[i].ordner %></option>
+					<%}%>
+					</select>
+				</div>
+				<button type="submit" class="btn btn-primary">Notiz Speichern</button>
 			</form>
-		</div>
-		<!--Eingabebereich Neuer Ordner-->
-		<div>
+			</div>
+
+			<!--Eingabebereich Neuer Ordner-->
+			<div id="eingabeNeuerOrdner" class="collapse">
 			<form action="/onNeuerOrdner" method="POST">
-				Neuer Ordner:
-				<input type="text" name="ordner" placeholder="Hier Namen für neuen Ordner eingeben.">
-				<br>
-				<button type="submit">Neuen Ordner hinzufügen</button>
-				<br>
+				<div class="form-group">
+					<label for="sel3">Neuer Ordner:</label>
+					<input class="form-control" type="text" id="sel3" name="ordner" placeholder="Hier Namen für neuen Ordner eingeben.">					
+				</div>
+				<button type="submit" class="btn btn-primary">Neuen Ordner Speichern</button>
 			</form>
+			</div>
 		</div>
+
+
+
+
 
 		<!--Auflistung der Tabelle-->
 		<div>
