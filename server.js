@@ -4,7 +4,13 @@
 
 // Datenbank initialisieren
 const sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('/db/user.db');
+let db = new sqlite3.Database('/db/user.db', (error)=>{
+	if(error){
+		console.error(error.message);
+	}else{
+		console.log('Connected to DB');
+	}
+});
 
 // Express.js Webserver
 const express = require('express');
@@ -35,3 +41,16 @@ app.listen(3000, function(){
 });
 
 // ================================================================//
+
+
+app.post('/onNewPost', function(req, res){
+	const post = req.body["post"];
+	const link = req.body["link"];
+	let postName = req.body["postName"]
+
+	if (())
+
+
+
+
+});
