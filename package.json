@@ -23,6 +23,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "password-hash": "^1.2.2",
-    "sqlite3": "^4.0.2"
+    "save": "^2.3.2",
+    "sqlite3": "^4.0.4"
   }
 }
