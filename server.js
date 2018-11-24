@@ -35,10 +35,6 @@ app.use(session({
 // Passwort Verschlüsselung
 const passwordHash = require('password-hash');
 
-//const jquery = require('jQuery');
-
-//const bootstrap = require('bootstrap');
-
 // Webserver starten http://localhost:3000
 app.listen(3000, function(){
 	console.log("listening on 3000");
@@ -72,16 +68,14 @@ app.get('/login', (req, res)=>{
                         res.redirect('/login');
                     }
                 });
-                
-				//res.redirect('profile');
 			}else{
                 //Password invalid
-                res.render('fehler.ejs');
+                res.render('fehler.ejs', {'fehlermeldung' : 'Falsches Passwort'});
                 //Passwort vergessen option?
             }
         }else{
             //user nicht gefunden
-            res.render('fehler.ejs', {'username' : userName});
+            res.render('fehler.ejs', {'fehlermeldung' : 'Username wurde nicht gefunden'});
         }
     })
  });
@@ -90,20 +84,29 @@ app.get('/login', (req, res)=>{
 	const userName = req.body['username'];
 	const passWord = req.body['password'];
     const passWordRepeat = req.body['repeatpwd'];
-    //TODO
-	db.run(`INSERT INTO user(username, password) VALUES ('${userName}', '${password}')`, (err, row) =>{
-        if(err){
-            console.log(err);
-        } else {
-            db.run(`INSERT INTO profileData(id, username) VALUES ('${userName}', '${row.id}')`, (err) =>{
-                if(err){
-                    console.log(err);
-                }
-            });
-        };
-        
-    });
-	res.redirect('');
+    if(passWord == passWordRepeat){
+        db.get(`SELECT * FROM user WHERE username='${userName}'`, (err, checkrow)=>{
+            if(err){
+                console.log(err);
+            } else if(checkrow == undefined) {
+                db.run(`INSERT INTO user(username, password) VALUES ('${userName}', '${passWord}')`, (err) =>{
+                    if(err){
+                        console.log(err);
+                    }
+                    db.run(`INSERT INTO profileData(id, username) VALUES ((SELECT id FROM user WHERE username = '${userName}'), '${userName}')`, (err) =>{
+                        if(err){
+                            console.log(err);
+                        }
+                    });
+                    res.redirect('/login');
+                })
+            } else {
+                res.render('fehler.ejs', {'fehlermeldung' : 'Username existiert bereits'});
+            }
+        }
+    )} else {
+        res.render('fehler.ejs', {'fehlermeldung' : 'Passworter stimmt nicht überein'});
+    };
 });
 
 app.get('/profile', (req, res)=>{
