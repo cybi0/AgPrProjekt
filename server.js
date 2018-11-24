@@ -4,7 +4,7 @@
 
 // Datenbank initialisieren
 const sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('/db/user.db', (error)=>{
+let db = new sqlite3.Database('datenbank.db', (error)=>{
 	if(error){
 		console.error(error.message);
 	}else{
@@ -42,11 +42,15 @@ app.listen(3000, function(){
 
 // ================================================================//
 
+app.get(['/']), function(req, res){
+	res.redirect('/dashboard');
+}
 
 app.post('/onNewPost', function(req, res){
 	const post = req.body["post"];
 	const link = req.body["link"];
 	let postName = req.body["postName"]
+	// hm ??
 });
 
 app.post('/uploadPost', (req, res)=>{

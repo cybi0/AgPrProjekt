@@ -1,0 +1,1 @@
+CREATE TABLE postData(id INTEGER FOREIGNKEY REFERENCES user(id),  postText TEXT NOT NULL DEFAULT "" , username TEXT);
