@@ -4,7 +4,13 @@
 
 // Datenbank initialisieren
 const sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('/db/user.db');
+let db = new sqlite3.Database(__dirname + '/db/messenger.db', (err)=> {
+	if(err){
+		console.error(err.message);
+	}else {
+		console.log('Connected to Database');
+	}
+});
 
 // Express.js Webserver
 const express = require('express');
@@ -35,3 +41,11 @@ app.listen(3000, function(){
 });
 
 // ================================================================//
+
+/*$( "#mailSenden" ).click(function() {
+	alert("Mail wurde gesendet!");
+  });*/
+
+  app.get('/messenger', function (req, res) {
+	res.render('messenger');
+  });
