@@ -4,7 +4,7 @@
 
 // Datenbank initialisieren
 const sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('datenbank.db', (error)=>{
+let db = new sqlite3.Database(__dirname + '/db/dashboard.db', (error)=>{
 	if(error){
 		console.error(error.message);
 	}else{
