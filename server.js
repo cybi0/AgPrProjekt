@@ -47,10 +47,13 @@ app.post('/onNewPost', function(req, res){
 	const post = req.body["post"];
 	const link = req.body["link"];
 	let postName = req.body["postName"]
+});
 
-	if (())
-
-
-
-
+app.post('/uploadPost', (req, res)=>{
+    db.run(`UPDATE postData SET postText = '${req.body['postText']}' WHERE id = '${req.session['sessionVariable']}'`, (err)=>{
+        if(err){
+            console.log(err);
+        }
+        res.redirect('/dashboard');
+    });
 });
