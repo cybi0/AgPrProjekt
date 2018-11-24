@@ -42,9 +42,9 @@ app.listen(3000, function(){
 
 // ================================================================//
 
-app.get(['/']), function(req, res){
-	res.redirect('/dashboard');
-}
+app.get('/dashboard', function(req, res){
+	res.render('dashboard');
+});
 
 app.post('/onNewPost', function(req, res){
 	const post = req.body["post"];
