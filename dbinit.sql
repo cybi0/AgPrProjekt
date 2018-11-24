@@ -1,0 +1,5 @@
+CREATE TABLE profileData(id INTEGER FOREIGNKEY REFERENCES user(id), profilePic BLOB NOT NULL DEFAULT "", bioText TEXT NOT NULL DEFAULT "" ,
+username TEXT);
+
+CREATE TABLE profileData(id INTEGER FOREIGNKEY REFERENCES user(id), profilePic BLOB NOT NULL DEFAULT "", bioText TEXT NOT NULL DEFAULT "" ,
+username TEXT);

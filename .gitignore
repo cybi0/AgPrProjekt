@@ -2,3 +2,4 @@
 /db/*.db
 #ignoriert node modules
 /node_modules
+.vscode/launch.json
