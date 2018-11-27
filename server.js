@@ -1,11 +1,15 @@
+//================================================================//
+
+//Code übernommen von Prof Dr. Plaß, HAW Hamburg
+
 // Datenbank initialisieren
 const sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database('notebook.db', (error)=>{
-	if(error){
-		console.error(error.message);
-	}else{
-		console.log('Connected to the notebook.db');
-	}
+let db = new sqlite3.Database(__dirname + '/db/projekt.db', (err)=>{
+    if(err){
+        console.error(err.message);
+    }else{
+        console.log('Connected to Database');
+    }
 });
 
 // Express.js Webserver
@@ -37,41 +41,141 @@ app.listen(3000, function(){
 });
 
 // ================================================================//
-/*
-app.get('/notebook', function(req, res) {
-	res.render('notebook');
+app.get('/', (req, res)=>{
+    res.redirect('/login');
 });
-*/
-/*
-String.isNullOrEmpty = function (value) {
-    return (!value || value == undefined || value == "" || value.length == 0);
-}
-*/
+
+app.get('/login', (req, res)=>{
+    if (! req.session['sessionVariable']){
+        res.render('login.ejs');
+    } else {
+        res.redirect('/profile')
+    }
+ });
+ 
+ app.post('/login', (req, res)=>{
+	const userName = req.body['username'];
+	const password = req.body['password'];
+	db.get(`SELECT password FROM user WHERE username='${userName}'`, (err, row)=>{
+        if(row != undefined){
+            if(password == row.password){
+                //User und Password valid
+                db.get(`SELECT id FROM user WHERE username='${userName}'`, (err, row)=>{
+                    if(row.id != null){
+                        req.session['sessionVariable'] = row.id;
+                        res.redirect('/profile');
+                    } else {
+                        res.redirect('/login');
+                    }
+                });
+			}else{
+                //Password invalid
+                res.render('fehler.ejs', {'fehlermeldung' : 'Falsches Passwort'});
+                //Passwort vergessen option?
+            }
+        }else{
+            //user nicht gefunden
+            res.render('fehler.ejs', {'fehlermeldung' : 'Username wurde nicht gefunden'});
+        }
+    })
+ });
+
+ app.post('/regristrieren', (req, res)=>{
+	const userName = req.body['username'];
+	const passWord = req.body['password'];
+    const passWordRepeat = req.body['repeatpwd'];
+    if(passWord == passWordRepeat){
+        db.get(`SELECT * FROM user WHERE username='${userName}'`, (err, checkrow)=>{
+            if(err){
+                console.log(err);
+            } else if(checkrow == undefined) {
+                db.run(`INSERT INTO user(username, password) VALUES ('${userName}', '${passWord}')`, (err) =>{
+                    if(err){
+                        console.log(err);
+                    }
+                    db.run(`INSERT INTO profileData(id, username) VALUES ((SELECT id FROM user WHERE username = '${userName}'), '${userName}')`, (err) =>{
+                        if(err){
+                            console.log(err);
+                        }
+                    });
+                    res.redirect('/login');
+                })
+            } else {
+                res.render('fehler.ejs', {'fehlermeldung' : 'Username existiert bereits'});
+            }
+        }
+    )} else {
+        res.render('fehler.ejs', {'fehlermeldung' : 'Passworter stimmt nicht überein'});
+    };
+});
+
+app.get('/profile', (req, res)=>{
+    renderProfile(req, res);
+ });
+
+app.post('/uploadPicture', (req, res)=>{
+    db.run(`UPDATE profileData SET profilePic = '${req.body['picture']}' WHERE id = '${req.session['sessionVariable']}'`, (err)=>{
+        if(err){
+            console.log(err);
+        }
+        res.redirect('/profile');
+    });
+});
+
+app.post('/uploadBio', (req, res)=>{
+    db.run(`UPDATE profileData SET bioText = '${req.body['bioText']}' WHERE id = '${req.session['sessionVariable']}'`, (err)=>{
+        if(err){
+            console.log(err);
+        }
+        res.redirect('/profile');
+    });
+});
+
+//Funtions:
+function renderProfile(req, res){
+    if (!req.session['sessionVariable']){
+        res.redirect('/login');
+    } else {
+        const sessionValue = req.session['sessionVariable']
+        db.get(`SELECT * FROM profileData WHERE id='${req.session['sessionVariable']}'`, (err, row) =>{
+            if(err){
+                console.log(err);
+            }
+            res.render('profile.ejs', {'profileData': row, 'sessionValue': sessionValue});
+        });
+    };
+};
+
+/**********************************************************************************
+**                                    Max                                        **
+***********************************************************************************/
+
 app.locals.ckeckForImage = (link) => {
-	const ausgabe = link.match(/\.(jpeg|jpg|gif|png)$/) != null;
+	const ausgabe = link.match(/\.(jpeg|jpg|gif|png|svg)$/) != null;
 	return(ausgabe);
 };
 
-app.get(['/', '/notebook'], function(req, res) {
-	const user = "Max";		//Muss noch geändert werden!!
-	
-	let sql = `SELECT * FROM notes WHERE user='${user}'`;
-	console.log(sql);
-	db.all(sql, function(err, rows){
-		if (err){
-			console.log(err.message);
-		}
-		else{
-			console.log(rows);
-			let notes = rows;
-			sql = `SELECT * FROM ordner`;
-			db.all(sql, function(err, rows){
-				let ordner = rows;
-				res.render('notebook', {'notes':  notes || [], 'ordner': ordner || []});
-			});
-		}
-	})
-	//res.render('notebook', {'rows':  ""});
+app.get('/notebook', function(req, res) {
+	if (!req.session['sessionVariable']){
+        res.redirect('/login');
+	} else {
+		let sql = `SELECT * FROM notes WHERE id='${req.session['sessionVariable']}'`;
+		console.log(sql);
+		db.all(sql, function(err, rows){
+			if (err){
+				console.log(err.message);
+			}
+			else{
+				console.log(rows);
+				let notes = rows;
+				sql = `SELECT * FROM ordner WHERE id='${req.session['sessionVariable']}'`;
+				db.all(sql, function(err, rows){
+					let ordner = rows;
+					res.render('notebook', {'notes':  notes || [], 'ordner': ordner || []});
+				});
+			}
+		})
+	}
 });
 
 app.post('/onNeueNotiz', function(req, res){
@@ -83,7 +187,6 @@ app.post('/onNeueNotiz', function(req, res){
 	const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 	const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 	const dateTime = date+' '+time;
-	const user = "Max";		//Muss noch geändert werden!!
 	
 	if ((ordner == "" || ordner == null) || (notiz == "" && link == "")){
 		res.redirect('/notebook');
@@ -92,7 +195,7 @@ app.post('/onNeueNotiz', function(req, res){
 			linkName = link;
 		}
 
-		const sql = `INSERT INTO notes (notiz, ordner, link, linkName, dateTime, user) VALUES ('${notiz}', '${ordner}', '${link}', '${linkName}', '${dateTime}', '${user}')`;
+		const sql = `INSERT INTO notes (id, notiz, ordner, link, linkName, dateTime) VALUES ('${req.session['sessionVariable']}', '${notiz}', '${ordner}', '${link}', '${linkName}', '${dateTime}')`;
 		console.log(sql);
 		db.run(sql, function(err){
 			res.redirect('/notebook');
@@ -103,9 +206,8 @@ app.post('/onNeueNotiz', function(req, res){
 
 app.post('/onNeuerOrdner', function(req, res){
 	const ordner = req.body["ordner"];
-	const user = "Max";		//Muss noch geändert werden!!
 	
-	const sql = `INSERT INTO ordner (ordner, user) VALUES ('${ordner}', '${user}')`;
+	const sql = `INSERT INTO ordner (id, ordner) VALUES ('${req.session['sessionVariable']}', '${ordner}')`;
 	console.log(sql);
 	db.run(sql, function(err){
 		res.redirect('/notebook');
@@ -114,9 +216,8 @@ app.post('/onNeuerOrdner', function(req, res){
 
 app.post('/onOrdnerAuswahl', function(req, res){
 	const ordn = req.body["ordner"];
-	const user = "Max";		//Muss noch geändert werden!!
 	
-	let sql = `SELECT * FROM notes WHERE ordner='${ordn}' AND user='${user}'`;
+	let sql = `SELECT * FROM notes WHERE ordner='${ordn}' AND id='${req.session['sessionVariable']}'`;
 	console.log(sql);
 	db.all(sql, function(err, rows){
 		if (err){
@@ -125,7 +226,7 @@ app.post('/onOrdnerAuswahl', function(req, res){
 		else{
 			console.log(rows);
 			let notes = rows;
-			sql = `SELECT * FROM ordner`;
+			sql = `SELECT * FROM ordner WHERE id='${req.session['sessionVariable']}'`;
 			db.all(sql, function(err, rows){
 				let ordner = rows;
 				res.render('notebook', {'notes':  notes || [], 'ordner': ordner || []});

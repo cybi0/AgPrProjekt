@@ -9,7 +9,6 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 		<style type="text/css">
 			body {
-				/*background-color: #3e3d39;*/
 				background-color: #333333;
 				color: #dfdbd2;
 			}
@@ -126,13 +125,13 @@
 			<!--Linkzeilen-->
 			<% for(var i = notes.length-1; i >= 0; i--) { %>
 				<div id="linkZeile" class="clearfix">
+					<dt style="color: #666666; float:right;"><%= notes[i].dateTime %></dt>
 					<% if(ckeckForImage(notes[i].link) == true) { %>
-					<dt><img src="<%= notes[i].link %>" alt="<%= notes[i].linkName %>"></dt>
+					<dt><img src="<%= notes[i].link %>" style="max-width: 300px; max-height: 300px; float: left; margin-right: 10px;" alt="<%= notes[i].linkName %>"></dt>
 					<% } else { %>
 					<dt><a href="<%= notes[i].link %>" target="_blank"><%= notes[i].linkName %></a></dt>
 					<% } %>
-					<dt style="white-space:pre-wrap; word-wrap:break-word; color:#dfdbd2"><%= notes[i].notiz %></dt>
-					<dt><%= notes[i].dateTime %></dt>
+					<dt style="white-space:pre-wrap; word-wrap:break-word; color:#dfdbd2;"><%= notes[i].notiz %></dt>
 				</div>
 			<%}%>
 
