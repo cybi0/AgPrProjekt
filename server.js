@@ -146,6 +146,13 @@ function renderProfile(req, res){
     };
 };
 
+/*
+MAX ADDED
+*/
+app.get('/sessionLoeschen', function(req, res){
+	delete req.session['sessionVariable'];
+	res.redirect('/login');
+});
 /**********************************************************************************
 **                                    Max                                        **
 ***********************************************************************************/
