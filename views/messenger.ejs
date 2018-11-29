@@ -3,8 +3,34 @@
   <head>
     <title>Messenger</title>
     <style type="text/CSS"> 
+      body {
+        background-color: #333333;
+        color: #dfdbd2
+      }
+      a:link, a:active, a:visited{
+        text-decoration: none;
+        color: rgb(80,176,255);
+      }
+      a:hover {
+        font-weight: bold;
+        color: dodgerblue;
+        text-shadow: 1px 1px 5px #3e3d39
+      }
       div {
         border: 1px solid #4CAF50;
+      }
+      .clearfix {
+        overflow: auto;
+      }
+      #cont_c25652f42e8ffff5711abca60ace0ac1 {
+        float: right;
+        top: 0;
+        right: 0;
+        padding: 0px;
+      }
+      #linkeTeile {
+        margin: 10px 0px 0px 0px;
+        backgound-color: #444444;
       }
     </style>
 
@@ -17,19 +43,24 @@
       </div>
     </nav>
 
+    <!--Bereich Begrüßung-->
     <div>
-       <div>
-         <div>
-           <h1>Willkommen!!</h1>
-           <p>Neue Mails</p>
-           <button id="mailSenden" type="button">Mails Senden</button>
-         </div>
-         <div >
-           <p>Mails von ...</p>
-         </div>
-       </div>
-       <p><a href="impressum.html">Impressum</a></p>
-     </div>
+      <h1>Willkommen!!</h1>
+    </div>
+    <!--Bereich der Bekommenden mails-->
+    <div >
+      <p>Mails von ...</p>
+    </div>
+    <!--Bereich zum versenden von mails-->
+    <div id="eingabeNeuerMails" class="collapse">
+    <form action="/neueMail" method="POST">
+      <div class="form-group">
+        <label for="sel3">Neuen Mail</label>
+        <input class="form-control" type="text" id="sel3" name="mail" placeholder="Schreibe hier deine neue Mail.">
+      </div>
+      <button id="mailSenden" type="button">Mails Senden</button>
+      </form>
     </div>
   </body>
 </html>
+
