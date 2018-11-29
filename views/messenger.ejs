@@ -2,26 +2,44 @@
 <html lang="en">
   <head>
     <title>Messenger</title>
+    <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <style type="text/CSS"> 
       body {
         background-color: #333333;
         color: #dfdbd2
       }
-      a:link, a:active, a:visited{
+      /*a:link, a:active, a:visited{
         text-decoration: none;
         color: rgb(80,176,255);
+      }*/
+      .clearfix {
+        overflow: auto;
       }
-      a:hover {
+      .header {
+        width: 100%;
+        height: 30px;
+        text-align: center;
+        padding: 15px 0px 10px;
+        font-size: 20px;
         font-weight: bold;
         color: dodgerblue;
         text-shadow: 1px 1px 5px #3e3d39
       }
-      div {
-        border: 1px solid #4CAF50;
+      .space {
+        padding: 50px 0px 0px;
       }
-      .clearfix {
-        overflow: auto;
+      h1 {
+        padding: 0px;
+        margin: 20px 0px 0px 0px;
+        text-align: center;
+        font-weight: normal;
       }
+      
       #cont_c25652f42e8ffff5711abca60ace0ac1 {
         float: right;
         top: 0;
@@ -30,36 +48,42 @@
       }
       #linkeTeile {
         margin: 10px 0px 0px 0px;
-        backgound-color: #444444;
+        background-color: #444444;
       }
     </style>
 
   </head>
   <body>
-    <nav>
-      <div>
-        <a href="#">Messenger</a>
-        <p>Menü</p>
+    <div class="container">
+      <!--Header-->
+      <div class="header">Messenger
       </div>
-    </nav>
 
-    <!--Bereich Begrüßung-->
-    <div>
-      <h1>Willkommen!!</h1>
-    </div>
-    <!--Bereich der Bekommenden mails-->
-    <div >
-      <p>Mails von ...</p>
-    </div>
-    <!--Bereich zum versenden von mails-->
-    <div id="eingabeNeuerMails" class="collapse">
-    <form action="/neueMail" method="POST">
-      <div class="form-group">
-        <label for="sel3">Neuen Mail</label>
-        <input class="form-control" type="text" id="sel3" name="mail" placeholder="Schreibe hier deine neue Mail.">
+      <!--greeting-->
+      <div>
+        <h1>Willkommen</h1>
       </div>
-      <button id="mailSenden" type="button">Mails Senden</button>
-      </form>
+
+      <!--incoming mails-->
+      <div class="space">
+        <div>
+          <label for="inMails">Mails</label>
+        </div>
+        <div class="form-control" id="msg-area"></div>
+        <div class="form-control" id="msg-area"></div>
+        <div class="form-control" id="msg-area"></div>
+      </div>
+
+      <!--send mail-->
+      <div class="space" id="eingabeNeuerMails">
+      <form action="/neueMail" method="POST">
+        <div class="form-group">
+          <label for="outMail">Neue Mail</label>
+          <input class="form-control" type="text" id="outMail" name="mail" placeholder="Schreibe hier deine neue Nachricht.">
+        </div>
+        <button type="mailSenden" class="btn btn-primary">Mails Senden</button>
+        </form>
+      </div>
     </div>
   </body>
 </html>
