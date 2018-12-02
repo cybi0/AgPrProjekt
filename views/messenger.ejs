@@ -4,23 +4,23 @@
     <title>Messenger</title>
     <meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <style type="text/CSS"> 
       body {
         background-color: #333333;
         color: #dfdbd2
       }
-      /*a:link, a:active, a:visited{
+      a:link, a:active, a:visited{
         text-decoration: none;
         color: rgb(80,176,255);
-      }*/
-      .clearfix {
-        overflow: auto;
       }
-      .header {
+      /* .clearfix {
+        overflow: auto;
+      } */
+      /* .header {
         width: 100%;
         height: 30px;
         text-align: center;
@@ -29,62 +29,103 @@
         font-weight: bold;
         color: dodgerblue;
         text-shadow: 1px 1px 5px #3e3d39
-      }
+      } */
       .space {
-        padding: 50px 0px 0px;
+        padding: 20px 0 0;
       }
-      h1 {
+      /* h1 {
         padding: 0px;
         margin: 20px 0px 0px 0px;
         text-align: center;
         font-weight: normal;
-      }
-      
-      #cont_c25652f42e8ffff5711abca60ace0ac1 {
-        float: right;
-        top: 0;
-        right: 0;
-        padding: 0px;
-      }
-      #linkeTeile {
-        margin: 10px 0px 0px 0px;
-        background-color: #444444;
-      }
+      } */
+    
     </style>
 
   </head>
   <body>
+      <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">Mail Service</a>
+            </div>
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="profile">Home</a></li>
+              <li><a href="#">Page 1</a></li>
+              <li><a href="#">Page 2</a></li>
+              <li><a href="#">Page 3</a></li>
+            </ul>
+          </div>
+        </nav>
+
     <div class="container">
       <!--Header-->
-      <div class="header">Messenger
-      </div>
-
-      <!--greeting-->
-      <div>
-        <h1>Willkommen</h1>
+      <h1>Messenger</h1>
+      <p>Hallo Niklas.</p>
+      <p>Du hast <b>0</b> ungelesene Mails!</p>
+      <p>
+        
+      <div class="space">
+        <h4>Was möchten Sie tun?</h4>
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button" class="btn btn-default">Neue Mail verfassen</button>
+            <button type="button" class="btn btn-default">Markierte als gelesen markieren</button>
+          </div>
+        </div>
       </div>
 
       <!--incoming mails-->
       <div class="space">
-        <div>
-          <label for="inMails">Mails</label>
+        <h4>Mails</h4>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-control" id="msg-area">Von: Mr. X</div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-control" id="msg-area">Dies ist eine Testmail</div>
+          </div>
+
+          <div class="col-md-1">
+              <center>
+                  <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="">
+                      </label>
+                    </div>
+              </center>
+            </div>
+
+          <div class="col-md-3">
+              <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#hide">Antworten</button>
+              <button type="button" class="btn btn-danger">Löschen</button>
+          </div>
         </div>
-        <div class="form-control" id="msg-area"></div>
-        <div class="form-control" id="msg-area"></div>
-        <div class="form-control" id="msg-area"></div>
       </div>
 
       <!--send mail-->
-      <div class="space" id="eingabeNeuerMails">
-      <form action="/neueMail" method="POST">
-        <div class="form-group">
-          <label for="outMail">Neue Mail</label>
-          <input class="form-control" type="text" id="outMail" name="mail" placeholder="Schreibe hier deine neue Nachricht.">
+      <div id="hide" class="collapse">
+        <div class="space">
+          <h4>Mails</h4>
+          <form action="/neueMail" method="POST">
+            <div class="form-group">
+              <label for="outMail">Neue Mail/ Mail beantworten</label>
+              <!-- <input class="form-control" type="text" id="outMail" name="mail" placeholder="Schreibe hier deine neue Nachricht."> -->
+              <div class="form-group">
+                  <textarea class="form-control" rows="5" placeholder="Schreibe hier deine neue Nachricht."></textarea>
+                </div>
+            </div>
+            <button type="mailSenden" class="btn btn-primary">Mails Senden</button>
+          </form>
         </div>
-        <button type="mailSenden" class="btn btn-primary">Mails Senden</button>
-        </form>
       </div>
     </div>
   </body>
+
+  <div class="space"></div>
+  <div class="space"></div>
+  <div class="space"></div>
+
 </html>
 
