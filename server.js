@@ -158,7 +158,7 @@ app.post('/onNewPost', function(req, res){
 });
 
 app.post('/uploadPost', (req, res)=>{
-    db.run(`UPDATE postData SET postText = '${req.body['postText']}' WHERE id = '${req.session['sessionVariable']}'`, (err)=>{
+    db.run(`INSERT INTO postData (userid, postText) VALUES ( '${req.session['sessionVariable']}' , "'${req.body['postText']}'")`, (err)=>{
         if(err){
             console.log(err);
         }
