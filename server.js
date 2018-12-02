@@ -58,6 +58,26 @@ app.get('/login', (req, res)=>{
     }
  });
  
+ app.get('/dashboard', function(req, res){
+	res.render('dashboard');
+});
+
+app.post('/onNewPost', function(req, res){
+	const post = req.body["post"];
+	const link = req.body["link"];
+	let postName = req.body["postName"]
+	// hm ??
+});
+
+app.post('/uploadPost', (req, res)=>{
+    db.run(`UPDATE postData SET postText = '${req.body['postText']}' WHERE id = '${req.session['sessionVariable']}'`, (err)=>{
+        if(err){
+            console.log(err);
+        }
+        res.redirect('/dashboard');
+    });
+});
+ 
  app.post('/login', (req, res)=>{
 	const userName = req.body['username'];
 	const password = req.body['password'];
