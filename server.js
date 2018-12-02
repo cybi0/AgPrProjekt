@@ -4,12 +4,12 @@
 
 // Datenbank initialisieren
 const sqlite3 = require('sqlite3').verbose();
-let db = new sqlite3.Database(__dirname + '/db/messenger.db', (err)=> {
-	if(err){
-		console.error(err.message);
-	}else {
-		console.log('Connected to Database');
-	}
+let db = new sqlite3.Database(__dirname + '/db/projekt.db', (err)=>{
+    if(err){
+        console.error(err.message);
+    }else{
+        console.log('Connected to Database');
+    }
 });
 
 // Express.js Webserver
@@ -45,6 +45,7 @@ app.listen(3000, function(){
 
 
 
+
 // ================================================================//
 // =============================Niklas=============================//
 // ================================================================//
@@ -55,3 +56,108 @@ app.listen(3000, function(){
   app.get('/messenger', function (req, res) {
 	res.render('messenger');
   });
+
+app.get('/', (req, res)=>{
+    res.redirect('/login');
+});
+
+app.get('/login', (req, res)=>{
+    if (! req.session['sessionVariable']){
+        res.render('login.ejs');
+    } else {
+        res.redirect('/profile')
+    }
+ });
+ 
+ app.post('/login', (req, res)=>{
+	const userName = req.body['username'];
+	const password = req.body['password'];
+	db.get(`SELECT password FROM user WHERE username='${userName}'`, (err, row)=>{
+        if(row != undefined){
+            if(password == row.password){
+                //User und Password valid
+                db.get(`SELECT id FROM user WHERE username='${userName}'`, (err, row)=>{
+                    if(row.id != null){
+                        req.session['sessionVariable'] = row.id;
+                        res.redirect('/profile');
+                    } else {
+                        res.redirect('/login');
+                    }
+                });
+			}else{
+                //Password invalid
+                res.render('fehler.ejs', {'fehlermeldung' : 'Falsches Passwort'});
+                //Passwort vergessen option?
+            }
+        }else{
+            //user nicht gefunden
+            res.render('fehler.ejs', {'fehlermeldung' : 'Username wurde nicht gefunden'});
+        }
+    })
+ });
+
+ app.post('/regristrieren', (req, res)=>{
+	const userName = req.body['username'];
+	const passWord = req.body['password'];
+    const passWordRepeat = req.body['repeatpwd'];
+    if(passWord == passWordRepeat){
+        db.get(`SELECT * FROM user WHERE username='${userName}'`, (err, checkrow)=>{
+            if(err){
+                console.log(err);
+            } else if(checkrow == undefined) {
+                db.run(`INSERT INTO user(username, password) VALUES ('${userName}', '${passWord}')`, (err) =>{
+                    if(err){
+                        console.log(err);
+                    }
+                    db.run(`INSERT INTO profileData(id, username) VALUES ((SELECT id FROM user WHERE username = '${userName}'), '${userName}')`, (err) =>{
+                        if(err){
+                            console.log(err);
+                        }
+                    });
+                    res.redirect('/login');
+                })
+            } else {
+                res.render('fehler.ejs', {'fehlermeldung' : 'Username existiert bereits'});
+            }
+        }
+    )} else {
+        res.render('fehler.ejs', {'fehlermeldung' : 'Passworter stimmt nicht überein'});
+    };
+});
+
+app.get('/profile', (req, res)=>{
+    renderProfile(req, res);
+ });
+
+app.post('/uploadPicture', (req, res)=>{
+    db.run(`UPDATE profileData SET profilePic = '${req.body['picture']}' WHERE id = '${req.session['sessionVariable']}'`, (err)=>{
+        if(err){
+            console.log(err);
+        }
+        res.redirect('/profile');
+    });
+});
+
+app.post('/uploadBio', (req, res)=>{
+    db.run(`UPDATE profileData SET bioText = '${req.body['bioText']}' WHERE id = '${req.session['sessionVariable']}'`, (err)=>{
+        if(err){
+            console.log(err);
+        }
+        res.redirect('/profile');
+    });
+});
+
+//Funtions:
+function renderProfile(req, res){
+    if (!req.session['sessionVariable']){
+        res.redirect('/login');
+    } else {
+        const sessionValue = req.session['sessionVariable']
+        db.get(`SELECT * FROM profileData WHERE id='${req.session['sessionVariable']}'`, (err, row) =>{
+            if(err){
+                console.log(err);
+            }
+            res.render('profile.ejs', {'profileData': row});
+        });
+    };
+};

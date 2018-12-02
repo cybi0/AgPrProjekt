@@ -7,3 +7,4 @@
 messenger/.DS_Store
 .DS_Store
 messenger/datenbankMS/datenbank.db
+.vscode/launch.json

@@ -4,7 +4,8 @@
   "description": "ProjektGit",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -22,8 +23,12 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "jquery": "^3.3.1",
     "password-hash": "^1.2.2",
     "save": "^2.3.2",
-    "sqlite3": "^4.0.4"
+    "sqlite3": "^4.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
   }
 }
