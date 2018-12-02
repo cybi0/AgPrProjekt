@@ -6,4 +6,3 @@ username TEXT);
 CREATE TABLE notes (id INTEGER FOREIGNKEY REFERENCES user(id), notiz TEXT NOT NULL, ordner TEXT NOT NULL, link TEXT, linkName TEXT, dateTime TEXT, user TEXT);
 
 CREATE TABLE ordner (id INTEGER FOREIGNKEY REFERENCES user(id), ordner TEXT NOT NULL, user TEXT);
-
