@@ -8,3 +8,5 @@ messenger/.DS_Store
 .DS_Store
 messenger/datenbankMS/datenbank.db
 .vscode/launch.json
+package.json
+package-lock.json
