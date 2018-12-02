@@ -11,35 +11,18 @@
     <style type="text/CSS"> 
       body {
         background-color: #333333;
-        color: #dfdbd2
+        color: #dfdbd2;
       }
       a:link, a:active, a:visited{
         text-decoration: none;
         color: rgb(80,176,255);
       }
-      /* .clearfix {
-        overflow: auto;
-      } */
-      /* .header {
-        width: 100%;
-        height: 30px;
-        text-align: center;
-        padding: 15px 0px 10px;
-        font-size: 20px;
-        font-weight: bold;
-        color: dodgerblue;
-        text-shadow: 1px 1px 5px #3e3d39
-      } */
+      div, a, h1 {
+        /*border: 1px solid green;*/
+      }
       .space {
         padding: 20px 0 0;
       }
-      /* h1 {
-        padding: 0px;
-        margin: 20px 0px 0px 0px;
-        text-align: center;
-        font-weight: normal;
-      } */
-    
     </style>
 
   </head>
@@ -47,20 +30,20 @@
       <nav class="navbar navbar-default">
           <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="profile">Home</a>
-              </div>
-              <ul class="nav navbar-nav">
-              <li class="active"><a href="messenger">Mails</a></li>
-              <li><a href="dashboard">Dashboard</a></li>
-              <li><a href="#">Page 3</a></li>
-              </ul>
+              <a class="navbar-brand" href="dashboard">Dashboard</a>
+            </div>
+            <ul class="nav navbar-nav">
+              <li><a href="notebook">Notebook</a></li>
+              <li class="active"><a href="messenger">Messeger</a></li>
+              <li><a href="profile">Profile</a></li>
+            </ul>
           </div>
         </nav>
 
-    <div class="container">
+    <div class="container" style="margin-bottom: 30px;">
       <!--Header-->
       <h1>Messenger</h1>
-      <p>Hallo Niklas.</p>
+      <p>Hallo <%= username %></p>
       <p>Du hast <b>0</b> ungelesene Mails!</p>
       <p>
         
@@ -68,39 +51,27 @@
         <h4>Was möchten Sie tun?</h4>
         <div class="row">
           <div class="col-md-12">
-            <button type="button" class="btn btn-default">Neue Mail verfassen</button>
+            <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#hide">Neue Mail verfassen</button>
             <button type="button" class="btn btn-default">Markierte als gelesen markieren</button>
           </div>
         </div>
       </div>
 
+
       <!--incoming mails-->
       <div class="space">
         <h4>Mails</h4>
         <div class="row">
-          <div class="col-md-2">
-            <div class="form-control" id="msg-area">Von: Mr. X</div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="form-control" id="msg-area">Dies ist eine Testmail</div>
-          </div>
-
-          <div class="col-md-1">
-              <center>
-                  <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="">
-                      </label>
-                    </div>
-              </center>
-            </div>
-
-          <div class="col-md-3">
-              <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#hide">Antworten</button>
-              <button type="button" class="btn btn-danger">Löschen</button>
-          </div>
+          <div class="col-md-8">
+            <% for(var i = 0; i < messeges.length; i++) { %>
+              <div style="margin-top: 2px;" class="form-control"><%= messeges[i].mail %></div>
+            <%}%>
+          </div>          
         </div>
+      </div>
+      <div style="margin-top: 10px;">
+          <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#hide">Antworten</button>
+          <button type="button" class="btn btn-danger">Löschen</button>
       </div>
 
       <!--send mail-->
@@ -109,22 +80,26 @@
           <h4>Mails</h4>
           <form action="/neueMail" method="POST">
             <div class="form-group">
-              <label for="outMail">Neue Mail/ Mail beantworten</label>
-              <!-- <input class="form-control" type="text" id="outMail" name="mail" placeholder="Schreibe hier deine neue Nachricht."> -->
+              <label>Neue Mail/ Mail beantworten</label>
               <div class="form-group">
-                  <textarea class="form-control" rows="5" placeholder="Schreibe hier deine neue Nachricht."></textarea>
+                  <textarea class="form-control" rows="5" name="mail" placeholder="Schreibe hier deine neue Nachricht."></textarea>
                 </div>
             </div>
-            <button type="mailSenden" class="btn btn-primary">Mails Senden</button>
+            <div class="form-group">
+              <label for="outAdress">Senden an:</label>
+              <select class="form-control" id="outAdress" name="username">
+              <% for(var i = 0; i < names.length; i++) { %>
+                <option name="username" value="<%= names[i].username %>"><%= names[i].username %></option>
+              <%}%>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Mails Senden</button>
           </form>
         </div>
       </div>
+
     </div>
   </body>
-
-  <div class="space"></div>
-  <div class="space"></div>
-  <div class="space"></div>
 
 </html>
 

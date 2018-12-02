@@ -130,9 +130,6 @@ app.post('/onOrdnerAuswahl', function(req, res){
 		}
 	})
 });
-  app.get('/messenger', function (req, res) {
-	res.render('messenger');
-  });
 
 app.get('/', (req, res)=>{
     res.redirect('/login');
@@ -241,6 +238,75 @@ app.post('/uploadBio', (req, res)=>{
             console.log(err);
         }
         res.redirect('/profile');
+    });
+});
+
+// ================================================================//
+
+/***********************************************
+**                   Niklas                   **
+***********************************************/
+app.get('/messenger', function (req, res) {
+    if (!req.session['sessionVariable']){
+        res.redirect('/login');
+	} else {
+        let sql = `SELECT username FROM user WHERE id='${req.session['sessionVariable']}'`;
+		console.log(sql);
+		db.get(sql, function(err, rows){
+			if (err){
+				console.log(err.message);
+			}
+			else{
+                console.log(rows);
+                const username = rows.username;
+                sql = `SELECT * FROM messeges WHERE username='${username}'`;
+                console.log(sql);
+				db.all(sql, function(err, rows){
+                    if (err){
+                        console.log(err.message);
+                    }
+                    else{
+                        console.log(rows);
+                        let messeges = rows;
+                        sql = `SELECT username FROM user`;
+                        console.log(sql);
+                        db.all(sql, function(err, rows){
+                            if (err){
+                                console.log(err.message);
+                            }
+                            else{
+                                console.log(rows);
+                                let names = rows;
+                                res.render('messenger', {'username': username || [], 'messeges': messeges || [], 'names': names || []});
+                            }
+                        });
+                    }
+				});
+			}
+		});
+    }
+});
+
+app.post('/neueMail', function(req, res){
+    let sql = `SELECT username FROM user WHERE id='${req.session['sessionVariable']}'`;
+    console.log(sql);
+    db.get(sql, function(err, rows){
+        if (err){
+            console.log(err.message);
+        }
+        else{
+            console.log(rows);
+            const sender = rows.username;
+            const mail = req.body["mail"];
+            const namedMail = sender + ":    " + mail;
+            const empfaenger = req.body["username"];
+	
+            const sql = `INSERT INTO messeges (mail, username) VALUES ('${namedMail}', '${empfaenger}')`;
+            console.log(sql);
+            db.run(sql, function(err){
+                res.redirect('/messenger');
+            });	
+        }
     });
 });
 
