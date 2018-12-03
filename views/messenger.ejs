@@ -17,9 +17,9 @@
         text-decoration: none;
         color: rgb(80,176,255);
       }
-      div, a, h1 {
-        /*border: 1px solid green;*/
-      }
+      /* div, a, h1 {
+        border: 1px solid green;
+      } */
       .space {
         padding: 20px 0 0;
       }
@@ -52,7 +52,7 @@
       <p>Du hast <b>0</b> ungelesene Mails!</p>
       <p>
         
-      <div class="space">
+      <!-- <div class="space">
         <h4>Was möchten Sie tun?</h4>
         <div class="row">
           <div class="col-md-12">
@@ -60,13 +60,13 @@
             <button type="button" class="btn btn-default">Markierte als gelesen markieren</button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!--incoming mails-->
       <div class="space">
         <h4>Mails</h4>
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-12">
             <% for(var i = 0; i < messeges.length; i++) { %>
               <div style="margin-top: 2px;" class="form-control"><%= messeges[i].mail %></div>
             <%}%>
@@ -74,6 +74,7 @@
         </div>
       </div>
       <div style="margin-top: 10px;">
+          <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#hide">Neue Mail verfassen</button>
           <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#hide">Antworten</button>
           <button type="button" class="btn btn-danger">Löschen</button>
       </div>
@@ -81,13 +82,13 @@
       <!--send mail-->
       <div id="hide" class="collapse">
         <div class="space">
-          <h4>Mails</h4>
+          <h4>Neue Mail</h4>
           <form action="/neueMail" method="POST">
             <div class="form-group">
-              <label>Neue Mail/ Mail beantworten</label>
+              <label>Neue Mail / Mail beantworten</label>
               <div class="form-group">
-                  <textarea class="form-control" rows="5" name="mail" placeholder="Schreibe hier deine neue Nachricht."></textarea>
-                </div>
+                <textarea class="form-control" rows="5" name="mail" placeholder="Schreibe hier deine neue Nachricht."></textarea>
+              </div>
             </div>
             <div class="form-group">
               <label for="outAdress">Senden an:</label>
@@ -97,7 +98,7 @@
               <%}%>
               </select>
             </div>
-            <button type="submit" class="btn btn-primary">Mails Senden</button>
+            <button type="submit" class="btn btn-primary">Mail Senden</button>
           </form>
         </div>
       </div>
