@@ -12,19 +12,24 @@
 			body {
 				background-color: #333333;
 				color: #dfdbd2;
+				font-family: Arial, Helvetica, sans-serif;
 			}
-			a:link, a:active, a:visited {
+			nav.Oberste {
+				font-size: 0.9em;
+			}
+			a.notizLinks:link, a.notizLinks:active, a.notizLinks:visited {
 				text-decoration: none;
-				color:rgb(80, 176, 255);
-				/*border: 1px solid #4CAF50;*/
+				color:rgb(80, 176, 255);				
 			}
-			a:hover {
+			a.notizLinks:hover {
 				font-weight: bold;
 				color: dodgerblue;
 				text-shadow: 1px 1px 5px #3e3d39;
 			}
-			div {
+			div, a, i {
 				/*border: 1px solid #4CAF50;*/
+			}
+			div {
 				padding: 5px;
 			}
 			.clearfix {
@@ -47,6 +52,33 @@
     </head>
     <body>
 		<a name="Seitenbeginn"></a>
+		<!--Main Navbar-->
+		<nav class="navbar navbar-expand-md bg-light navbar-light Oberste" style="padding:0px;background-color: #f8f8f8;">
+			<!-- Links -->
+			<ul class="navbar-nav">
+				<li class="nav-item" style="font-size: 1.22em;margin: 6px 7px 3px 8px;">
+					<a class="nav-link" href="#">#YourBook#</a>
+				</li>
+				<li class="nav-item" style="padding: 9px 6px 5px 7.5px;background-color:#e7e7e7;">
+					<a class="nav-link" href="notebook">Notebook</a>
+				</li>
+				<li class="nav-item" style="padding: 9px 6px 5px 7.5px;">
+					<a class="nav-link" href="messenger">Messeger</a>
+				</li>
+				<li class="nav-item" style="padding: 9px 6px 5px 7.5px;">
+					<a class="nav-link" href="profile">Profile</a>
+				</li>
+				<li class="nav-item" style="padding: 9px 6px 5px 7.5px;">
+					<a class="nav-link" href="dashboard">Dashboard</a>
+				</li>
+			</ul>
+			<!--Logout Link-->
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">						
+					<a class="nav-link" href="/logout" style="padding: 9px 15px 4px 0px;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+				</li>
+			</ul>
+		</nav>
 		
 		<!--Eingabebereich-->
 		<div class="container">
@@ -84,10 +116,6 @@
 			</div>
 		</div>
 
-
-
-
-
 		<!--Navileiste mit zwei Buttons-->
 		<nav style="margin-top: 20px" class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
 			<!-- Brand class="navbar-brand" -->
@@ -98,7 +126,7 @@
 					<button class="btn btn-light" data-toggle="collapse" data-target="#eingabeNeuerOrdner">Neuen Ordner Erstellen</button>
 				</li>
 			</ul>
-			<a class="nav-link ml-auto" href="profile" style="margin:0px;padding:0px;"><i class="fa fa-home" style="font-size:36px;color:#dfdbd2;"></i></a>
+			<a class="nav-link ml-auto" title="Zum Seitenbeginn springen" href="#Seitenbeginn" style="margin:0px;padding:0px;"><i class="fas fa-arrow-up" style="font-size:24px;color:#dfdbd2;"></i></a>
 		</nav>
 
 		<!--dasWetter-->
@@ -132,7 +160,7 @@
 					<% if(ckeckForImage(notes[i].link) == true) { %>
 					<dt><img src="<%= notes[i].link %>" style="max-width: 300px; max-height: 300px; float: left; margin-right: 10px;" alt="<%= notes[i].linkName %>"></dt>
 					<% } else { %>
-					<dt><a href="<%= notes[i].link %>" target="_blank"><%= notes[i].linkName %></a></dt>
+					<dt><a href="<%= notes[i].link %>" class="notizLinks" target="_blank"><%= notes[i].linkName %></a></dt>
 					<% } %>
 					<dt style="white-space:pre-wrap; word-wrap:break-word; color:#dfdbd2;"><%= notes[i].notiz %></dt>
 				</div>
