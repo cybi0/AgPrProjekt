@@ -48,34 +48,37 @@
 
 
         <h2>Dashboard</h2>
-
-        <div class="posts">
         
-        
-        </div>
-
-
-
-        <div class="cont">
-            <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#newPost">Neuer Post</button>
-
-            <!--eingabe für neuen Post-->
-            <div id="newPost" class="collapse">
-                <form action="onNewPost" method="POST">
-                    
-                </form>
-
-                <form action="uploadPost" method="POST">
-
-                        <textarea class ="text-dark" rows="5" cols="20" name="postText">
+            <div class="container">
+                <h4>Aktuelle Posts </h4>
+                <div class="row">
+                    <div class="col-md-8">
+ 
+                        <% for(var i = 0; i < postData.length; i++) { %>
+                            <div style="margin-top: 2px;" class="form-control"><%= postData[i].postText %></div>
+                        <%}%>
                         
-                        </textarea>
-                        <button type="submit" class="btn btn-success">Speichern!</button>
-                </form>
-                <!--ss<button type="button" class="btn btn-success"  type="submit">Speichern!</button>-->
-            </div>
-        </div>
-        
+                    
+                    </div>
 
+                </div>
+
+                <div class="cont">
+                    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#newPost">Neuer Post</button>
+
+                <!--eingabe für neuen Post-->
+                    <div id="newPost" class="collapse">
+
+                            <form action="uploadPost" method="POST">
+
+                                    <textarea class ="text-dark" rows="5" cols="20" name="postText">
+                                    
+                                    </textarea>
+                                    <button type="submit" class="btn btn-success">Speichern!</button>
+                            </form>
+                        <!--ss<button type="button" class="btn btn-success"  type="submit">Speichern!</button>-->
+                    </div>
+                </div>    
+            </div>
     </body>
 </html>

@@ -143,25 +143,62 @@ app.get('/login', (req, res)=>{
     }
  });
  
- app.get('/dashboard', function(req, res){
-	res.render('dashboard');
+//Dashboard UNFINISHED!
+
+ app.get('/dashboard', function(req, res) {
+    if (!req.session['sessionVariable']){
+        res.redirect('/login');
+    }
+    else {
+        let sql = `SELECT username FROM user WHERE id='${req.session['sessionVariable']}'`;
+        console.log(sql);
+        db.get(sql, function(err, rows){
+
+            console.log(rows);
+            let postData = rows;
+            sql = `SELECT * FROM postData  `;
+            console.log(sql);
+            db.all(sql, function(err, rows){
+
+                res.render('dashboard', { 'postData': postData || []});
+
+            });              
+        }); 
+    }
 });
 
-app.post('/onNewPost', function(req, res){
-	const post = req.body["post"];
-	const link = req.body["link"];
-	let postName = req.body["postName"]
-	// hm ??
-});
+
 
 app.post('/uploadPost', (req, res)=>{
-    db.run(`INSERT INTO postData (userid, postText) VALUES ( '${req.session['sessionVariable']}' , '${req.body['postText']}')`, (err)=>{
-        if(err){
-            console.log(err);
-        }
-        res.redirect('/dashboard');
+
+    let sql = `SELECT username FROM user WHERE id='${req.session['sessionVariable']}'`;
+    console.log(sql);
+    db.get(sql, function(err, rows){
+
+        console.log(rows);
+        const postSender = rows.username;
+        const postText = req.body["postText"];
+        const namedPost = postSender + ":    " + postText;
+
+        const sql = `INSERT INTO postData (userid, postText) VALUES ('${req.session['sessionVariable']}' , '${namedPost}')`;
+
+        console.log(sql);
+            db.run(sql, function(err){
+                res.redirect('/dashboard');
+            });
+
+        /*
+         db.run(`INSERT INTO postData (userid, postText) VALUES ( '${req.session['sessionVariable']}' , '${req.body['postText']}')`, (err)=>{
+            if(err){
+                console.log(err);
+            }
+            res.redirect('/dashboard');
+
+        }); */     
     });
 });
+
+//login und registration 
  
  app.post('/login', (req, res)=>{
 	const userName = req.body['username'];
