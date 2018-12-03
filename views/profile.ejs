@@ -47,16 +47,20 @@
 <body class="text-center">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <div class="navbar-header">
-            <a class="navbar-brand" href="profile">Home</a>
-            </div>
-            <ul class="nav navbar-nav">
-            <li><a href="messenger">Mails</a></li>
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">#YourBook#</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li><a href="notebook">Notebook</a></li>
+            <li><a href="messenger">Messeger</a></li>
+            <li class="active"><a href="profile">Profile</a></li>
             <li><a href="dashboard">Dashboard</a></li>
-            <li><a href="#">Page 3</a></li>
-            </ul>
-        </div>
-    </nav>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          </ul>
+        </div> 
+      </nav>
     <div class="container">
         <h1><%= profileData.username %>!</h1>
     </div>  

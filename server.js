@@ -142,6 +142,11 @@ app.get('/login', (req, res)=>{
         res.redirect('/profile')
     }
  });
+
+ app.get('/logout', (req, res)=>{
+    delete req.session['sessionVariable'];
+    res.redirect('/login');
+}); 
  
  app.get('/dashboard', function(req, res){
 	res.render('dashboard');
