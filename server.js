@@ -205,6 +205,7 @@ app.post('/uploadPost', (req, res)=>{
 
 //login und registration 
  
+/*Felix*/
  app.post('/login', (req, res)=>{
 	const userName = req.body['username'];
 	const password = req.body['password'];
@@ -261,17 +262,26 @@ app.post('/uploadPost', (req, res)=>{
     };
 });
 
-app.get('/profile', (req, res)=>{
-    renderProfile(req, res);
+app.get('/user/:userID', (req, res)=>{
+    renderProfile(req, res, req.params['userID']);
  });
 
-app.post('/uploadPicture', (req, res)=>{
-    db.run(`UPDATE profileData SET profilePic = '${req.body['picture']}' WHERE id = '${req.session['sessionVariable']}'`, (err)=>{
-        if(err){
-            console.log(err);
-        }
-        res.redirect('/profile');
-    });
+app.get('/profile', (req, res)=>{
+    renderProfile(req, res, req.session['sessionVariable']);
+ });
+
+app.get('/allUsers', (req, res)=>{
+    if (!req.session['sessionVariable']){
+        res.redirect('/login');
+    }
+    else {
+        db.all(`SELECT * FROM profileData WHERE NOT id='${req.session['sessionVariable']}'`, (err, rows) =>{
+            if(err){
+                console.log(err);
+            }
+            res.render('allUsers.ejs', {'profiles' : rows});
+        });
+    }
 });
 
 app.post('/uploadBio', (req, res)=>{
@@ -301,7 +311,7 @@ app.get('/messenger', function (req, res) {
 			else{
                 console.log(rows);
                 const username = rows.username;
-                sql = `SELECT * FROM messeges WHERE username='${username}'`;
+                sql = `SELECT * FROM messages WHERE username='${username}'`;
                 console.log(sql);
 				db.all(sql, function(err, rows){
                     if (err){
@@ -309,7 +319,7 @@ app.get('/messenger', function (req, res) {
                     }
                     else{
                         console.log(rows);
-                        let messeges = rows;
+                        let messages = rows;
                         sql = `SELECT username FROM user`;
                         console.log(sql);
                         db.all(sql, function(err, rows){
@@ -319,7 +329,7 @@ app.get('/messenger', function (req, res) {
                             else{
                                 console.log(rows);
                                 let names = rows;
-                                res.render('messenger', {'username': username || [], 'messeges': messeges || [], 'names': names || []});
+                                res.render('messenger', {'username': username || [], 'messages': messages || [], 'names': names || []});
                             }
                         });
                     }
@@ -343,7 +353,7 @@ app.post('/neueMail', function(req, res){
             const namedMail = sender + ":    " + mail;
             const empfaenger = req.body["username"];
 	
-            const sql = `INSERT INTO messeges (mail, username) VALUES ('${namedMail}', '${empfaenger}')`;
+            const sql = `INSERT INTO messages (mail, username) VALUES ('${namedMail}', '${empfaenger}')`;
             console.log(sql);
             db.run(sql, function(err){
                 res.redirect('/messenger');
@@ -353,16 +363,19 @@ app.post('/neueMail', function(req, res){
 });
 
 //Funtions:
-function renderProfile(req, res){
+function renderProfile(req, res, userID){
     if (!req.session['sessionVariable']){
         res.redirect('/login');
     } else {
-        const sessionValue = req.session['sessionVariable']
-        db.get(`SELECT * FROM profileData WHERE id='${req.session['sessionVariable']}'`, (err, row) =>{
+        db.get(`SELECT * FROM profileData WHERE id='${userID}'`, (err, row) =>{
             if(err){
                 console.log(err);
             }
-            res.render('profile.ejs', {'profileData': row});
+            if (userID == req.session['sessionVariable']){
+                res.render('profile.ejs', {'profileData': row});
+            } else {
+                res.render('viewUser.ejs', {'profileData': row});
+            };
         });
     };
 };

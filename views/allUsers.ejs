@@ -53,9 +53,9 @@
           <ul class="nav navbar-nav">
             <li><a href="notebook">Notebook</a></li>
             <li><a href="messenger">Messenger</a></li>
-            <li class="active"><a href="profile">Profile</a></li>
+            <li><a href="profile">Profile</a></li>
             <li><a href="dashboard">Dashboard</a></li>
-            <li><a href="allUsers">Browse Users</a></li>
+            <li class="active"><a href="allUsers">Browse Users</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -63,13 +63,14 @@
         </div> 
       </nav>
     <div class="container">
-        <h1>Hallo, <%= profileData.username %>! <br> Willkommen auf deinem Profil</h1>
+        <h1>User die diese Seite benutzen:</h1>
     </div>  
     <div class="container">
-        <form action="uploadBio" method="POST">
-            <textarea class="form-control" rows="5" name="bioText" placeholder="Schreibe hier etwas über dich!"><%= profileData.bioText %></textarea>
-            <button type="submit" class="btn btn-default">Speichern!</button>
-        </form>
+        <% for(var i = 0; i < profiles.length; i++) { %>
+          <form action="user/<%=profiles[i].id%>" method="GET">
+              <button type="submit" class="btn btn-success"><%=profiles[i].username%></button>
+          </form>
+        <%}%>
     </div>
 </body>
 </html>
