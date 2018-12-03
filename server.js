@@ -148,7 +148,7 @@ app.get('/login', (req, res)=>{
     res.redirect('/login');
 }); 
  
-//Dashboard UNFINISHED!
+//Dashboard More or less finished!
 
  app.get('/dashboard', function(req, res) {
     if (!req.session['sessionVariable']){
@@ -160,12 +160,12 @@ app.get('/login', (req, res)=>{
         db.get(sql, function(err, rows){
 
             console.log(rows);
-            let postData = rows;
+
             sql = `SELECT * FROM postData  `;
             console.log(sql);
             db.all(sql, function(err, rows){
 
-                res.render('dashboard', { 'postData': postData || []});
+                res.render('dashboard', { 'postData': rows || []});
 
             });              
         }); 
