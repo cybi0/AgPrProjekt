@@ -211,7 +211,7 @@ app.post('/uploadPost', (req, res)=>{
 	const password = req.body['password'];
 	db.get(`SELECT password FROM user WHERE username='${userName}'`, (err, row)=>{
         if(row != undefined){
-            if(password == row.password){
+            if(passwordHash.verify(password, row.password)){
                 //User und Password valid
                 db.get(`SELECT id FROM user WHERE username='${userName}'`, (err, row)=>{
                     if(row.id != null){
@@ -242,7 +242,7 @@ app.post('/uploadPost', (req, res)=>{
             if(err){
                 console.log(err);
             } else if(checkrow == undefined) {
-                db.run(`INSERT INTO user(username, password) VALUES ('${userName}', '${passWord}')`, (err) =>{
+                db.run(`INSERT INTO user(username, password) VALUES ('${userName}', '${passwordHash.generate(passWord)}')`, (err) =>{
                     if(err){
                         console.log(err);
                     }
