@@ -56,7 +56,7 @@
             <div class="container">
                 <h4>Aktuelle Posts </h4>
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
  
                         <% for(var i = 0; i < postData.length; i++) { %>
                             <div style="margin-top: 2px;" class="form-control"><%= postData[i].postText %></div>
@@ -75,7 +75,7 @@
 
                             <form action="uploadPost" method="POST">
 
-                                    <textarea class ="form-control" rows="5" cols="20" name="postText" placeholder="Schreibe deine Nachricht:">
+                                    <textarea class ="form-control" rows="5" cols="20" name="postText" placeholder="Verfasse einen Post:">
                                     
                                     </textarea>
                                     <button type="submit" class="btn btn-success">Speichern!</button>
