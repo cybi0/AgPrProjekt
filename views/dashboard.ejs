@@ -61,7 +61,7 @@
  
                         <% for(var i = 0; i < postData.length; i++) { %>
                             <!--<p style="margin-top: 2px;" class="form-control"><%= postData[i].postText %></p>-->
-                            <dt style="padding: 9px; white-space:pre-wrap; word-wrap:break-word; background-color: #f8f8f8; color: #333333; margin-top: 6px; text-align: left"><%= postData[i].postText %></dt>
+                            <dt style="border-radius: 3px;padding: 9px; white-space:pre-wrap; word-wrap:break-word; background-color: #f8f8f8; color: #333333; margin-top: 6px; text-align: left"><%= postData[i].postText %></dt>
                         <%}%>
                         
                     </div>
@@ -74,7 +74,7 @@
 
                             <form action="uploadPost" method="POST">
 
-                                <textarea class ="form-control" rows="5" cols="20" name="postText" placeholder="Verfasse einen Post:"></textarea>
+                                <textarea style="margin-top: 10px;" class ="form-control" rows="5" cols="20" name="postText" placeholder="Verfasse einen Post:"></textarea>
                                     <button style="margin-top: 10px;" type="submit" class="btn btn-success">Speichern!</button>
                             </form>
                         <!--ss<button type="button" class="btn btn-success"  type="submit">Speichern!</button>-->
