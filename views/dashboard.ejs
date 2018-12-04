@@ -8,8 +8,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-        <style type="text/CSS"> 
+        <!--Setting the style of the page-->
+        <style type="text/CSS">
             body {
               background-color: #333333;
               color: #dfdbd2
@@ -31,7 +31,7 @@
 
     <body class="text-center">
         
-        
+        <!--Creating the Navigation bar at the top of the webpage-->
         <nav class="navbar navbar-default">
             <div class="container-fluid">
               <div class="navbar-header">
@@ -41,7 +41,7 @@
                 <li><a href="notebook">Notebook</a></li>
                 <li><a href="messenger">Messenger</a></li>
                 <li><a href="profile">Profile</a></li>
-                <li class="active"><a href="dashboard">Dashboard</a></li>
+                <li class="active"><a href="dashboard">Dashboard</a></li>       <!--Dashboard set on "active" because you are on the f** dashboard-->
                 <li><a href="allUsers">Browse Users</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
@@ -50,39 +50,37 @@
             </div> 
           </nav>
 
-
+        <div class="space">
         <h2>Dashboard</h2>
         
             <div class="container">
                 <h4>Aktuelle Posts </h4>
                 <div class="row">
+                    <!--auflistung aller vorhandener Posts-->
                     <div class="col-md-12">
  
                         <% for(var i = 0; i < postData.length; i++) { %>
-                            <div style="margin-top: 2px;" class="form-control"><%= postData[i].postText %></div>
+                            <!--<p style="margin-top: 2px;" class="form-control"><%= postData[i].postText %></p>-->
+                            <dt style="padding: 9px; white-space:pre-wrap; word-wrap:break-word; background-color: #f8f8f8; color: #333333; margin-top: 6px; text-align: left"><%= postData[i].postText %></dt>
                         <%}%>
                         
-                    
                     </div>
-
                 </div>
-
                 <div class="cont">
-                    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#newPost">Neuer Post</button>
+                    <button style="margin-top: 10px;" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#newPost">Neuer Post</button>
 
                 <!--eingabe für neuen Post-->
                     <div id="newPost" class="collapse">
 
                             <form action="uploadPost" method="POST">
 
-                                    <textarea class ="form-control" rows="5" cols="20" name="postText" placeholder="Verfasse einen Post:">
-                                    
-                                    </textarea>
-                                    <button type="submit" class="btn btn-success">Speichern!</button>
+                                <textarea class ="form-control" rows="5" cols="20" name="postText" placeholder="Verfasse einen Post:"></textarea>
+                                    <button style="margin-top: 10px;" type="submit" class="btn btn-success">Speichern!</button>
                             </form>
                         <!--ss<button type="button" class="btn btn-success"  type="submit">Speichern!</button>-->
                     </div>
                 </div>    
             </div>
+        </div>
     </body>
 </html>
